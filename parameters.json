@@ -6,7 +6,7 @@
             "value": "nostoragefunc"
         },
         "runtime": {
-            "value": "python"
+            "value": "dotnet"
         }
     }
 }

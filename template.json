@@ -31,15 +31,15 @@
         }
     },
     "variables": {
-        "functionAppName": "[parameters('appName')]",
-        "hostingPlanName": "[parameters('appName')]",
+        "functionAppName": "[format('{0}{1}', parameters('appName'), uniqueString(resourceGroup().id))]",
+        // "hostingPlanName": "[variables('functionAppName')]",
         "functionWorkerRuntime": "[parameters('runtime')]"
     },
     "resources": [
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2021-03-01",
-            "name": "[variables('hostingPlanName')]",
+            "name": "[variables('functionAppName')]",
             "location": "[parameters('location')]",
             "sku": {
                 "name": "Y1",
@@ -57,7 +57,7 @@
                 "type": "SystemAssigned"
             },
             "properties": {
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('functionAppName'))]",
                 "siteConfig": {
                     "appSettings": [
                         // {
@@ -75,12 +75,12 @@
                         // },
                         {
                         "name": "FUNCTIONS_EXTENSION_VERSION",
-                        "value": "~2"
+                        "value": "~4"
                         },
-                        {
-                        "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                        "value": "~10"
-                        },
+                        // {
+                        // "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                        // "value": "~10"
+                        // },
                         // {
                         // "name": "APPINSIGHTS_INSTRUMENTATIONKEY",
                         // "value": "[reference(resourceId('Microsoft.Insights/components', variables('applicationInsightsName'))).InstrumentationKey]"
@@ -97,7 +97,7 @@
                 "storageAccountRequired": false
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', variables('hostingPlanName'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('functionAppName'))]"
             ]
         }
        

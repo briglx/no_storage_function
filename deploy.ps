@@ -4,4 +4,4 @@ RESOURCE_GROUP=development
 LOCATION=westus
 
 # az group create --name $resourceGroupName --location "$location"
-az deployment group create --name "create_function_app" --resource-group $RESOURCE_GROUP --template-file "template.json" --parameters @parameters.json
+az deployment group create --name "create_function_app$(date '+%Y%m%dT%H%M%S')" --resource-group $RESOURCE_GROUP --template-file "template.json" --parameters @parameters.json
